@@ -6,7 +6,13 @@ The project is built based on the provided Car Price dataset. It contains the fu
 
 ## Machine Learning
 
-Four Machine Learning models were tested: Linear Regression, Random Forest, Decision Tree and SVM. Their performance was evaluated using MSE, RMSE and R² metrics. Linear Regression was chosen as the final model used for the web application.
+The project was developed throughout three stages.
+
+In the first version, four Machine Learning models were tested: Linear Regression, Random Forest, Decision Tree and SVM. Their performance was evaluated using MSE, RMSE and R² metrics. Linear Regression was chosen as the final model.
+
+In stage 2, the Linear Regression implementation was extended and different combinations of optimization methods, initialization methods, momentum, learning rates and regularization were tested and compared using MSE and R². The best model was used as the Advanced model in the web application.
+
+In stage 3, the selling price was divided into 4 classes with Multinomial Logistic Regression. The models were evaluated using Accuracy, Precision, Recall, F1, Macro F1 and Weighted F1. Ridge with lambda 0.005 was selected as the final model based on the Mean Weighted F1 score. This stage's model is used by the PRICE RANGE option in the web application.
 
 ## Repository
 
@@ -14,14 +20,8 @@ The repository contains the Jupyter Notebook with the full data investigation, p
 
 ## Running the application
 
-The application can be run using the `app` folder. One should prompt:
-docker compose up --build
-
-After building and starting the container, the application is available at:
-http://127.0.0.1:8050
-
-To stop the application one should run:
-docker compose down
+The application is deployed on the AIT server and is available through the following webpage:
+https://web-st127173.ml.brain.cs.ait.ac.th
 
 ## Web Application
 
@@ -54,9 +54,10 @@ The project was developed using Python, Pandas, Scikit-learn and Dash. Docker wa
 
 ## What is new?
 
-The prediction page has been extended with a new model selection functionality. The user can now choose between two prediction models:
+The prediction page has been extended with a new model selection functionality. The user can now choose between three prediction models:
 
-- **Standard**- uses the basic Linear Regression model from the previous version of the application
+- **Standard**- uses the basic Linear Regression model from the first version of the application
 - **Advanced**- uses the improved Linear Regression model developed in Assignment 2
+- **PRICE RANGE**- uses the Multinomial Logistic Regression model developed in Assignment 3. Instead of predicting one exact price, this model predicts the price range in which the car price lies
 
-The Advanced model is based on the extended implementation of Linear Regression. Different combinations of optimization methods, initialization methods, momentum, learning rates and regularization were tested and compared using MSE and R². After the experiments the best one model was chosen. Now user can use this superior model, but still has a right to obtain predictions based on the first release basic model.
+The user can now choose whether to obtain an exact price prediction using one of the previous models or a predicted price range using the new classification model.
