@@ -49,3 +49,40 @@ jobs:
           context: ./app
           push: true
           tags: 276087/car-price-app3:latest
+
+  deploy:
+    needs: docker
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/a3_github
+          chmod 600 ~/.ssh/a3_github
+
+          cat > ~/.ssh/config <<'EOF'
+          Host bazooka-a3
+            HostName bazooka.cs.ait.ac.th
+            User st127173
+            IdentityFile ~/.ssh/a3_github
+            IdentitiesOnly yes
+            StrictHostKeyChecking no
+
+          Host mlbrain-a3
+            HostName ml.brain.cs.ait.ac.th
+            User st127173
+            IdentityFile ~/.ssh/a3_github
+            IdentitiesOnly yes
+            ProxyJump bazooka-a3
+            StrictHostKeyChecking no
+          EOF
+
+          chmod 600 ~/.ssh/config
+
+      - name: Deploy A3
+        run: |
+          ssh mlbrain-a3 'cd /home/st127173/a3 && docker compose pull && docker compose up -d'
