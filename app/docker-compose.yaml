@@ -1,0 +1,5 @@
+services:
+  car-price-app2:
+    build: .
+    ports:
+      - "8050:8050"
